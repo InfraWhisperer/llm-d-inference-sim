@@ -489,6 +489,12 @@ func (s *simContext) setInitialPrometheusMetrics(cacheConfig *prometheus.GaugeVe
 		if s.config.FakeMetrics.ReqDecodeTimeBucketValues != nil {
 			s.initFakeHistogram(s.metrics.reqDecodeTime, common.RequestLatencyBucketsBoundaries, s.config.FakeMetrics.ReqDecodeTimeBucketValues)
 		}
+		if s.config.FakeMetrics.PrefixCacheQueries != nil {
+			s.metrics.prefixCacheQueries.WithLabelValues(modelName).Add(float64(*s.config.FakeMetrics.PrefixCacheQueries))
+		}
+		if s.config.FakeMetrics.PrefixCacheHits != nil {
+			s.metrics.prefixCacheHits.WithLabelValues(modelName).Add(float64(*s.config.FakeMetrics.PrefixCacheHits))
+		}
 	}
 
 	s.metrics.runningRequests.WithLabelValues(modelName).Set(nRunningReqs)
